@@ -1,0 +1,14 @@
+{
+  "name": "price-watch-pakistan-static",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-check.mjs",
+    "start": "node scripts/local-server.mjs"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  },
+  "packageManager": "npm@10.8.2"
+}

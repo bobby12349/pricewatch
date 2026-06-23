@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin | Price Watch Pakistan</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .admin-form{background:#fff;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow);display:grid;gap:14px;max-width:880px}.admin-form label{display:grid;gap:8px;font-weight:800;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.admin-form button{border:0;background:var(--green);color:#fff;border-radius:18px;padding:15px 18px;font-weight:950;cursor:pointer}.notice{margin-top:14px;padding:14px 16px;border-radius:16px;background:#ecf7f0;color:var(--green);font-weight:800}.danger{background:#fff0f0;color:var(--red)}textarea{min-height:120px;border:1px solid var(--line);border-radius:18px;padding:14px;font:inherit}.back{color:#fff;font-weight:900;text-decoration:none}.hero{align-items:center}.helper{color:var(--muted);line-height:1.6;max-width:880px}
+    @media(max-width:700px){.row2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero"><div><p class="eyebrow">Admin portal</p><h1>Add official price</h1><p class="subhead">Add one new dated rate-list entry. It will be saved to GitHub when environment variables are configured.</p></div><a class="back" href="/">← Public site</a></header>
+    <p class="helper">Use this only for official Government rate-list values. Public pages hide missing/unavailable items automatically.</p>
+    <form id="adminForm" class="admin-form">
+      <label>Admin password<input name="password" type="password" required /></label>
+      <div class="row2"><label>Date<input name="date" type="date" required /></label><label>Category<input name="category" placeholder="Fruits / Vegetables / Poultry / Essential Commodities" required /></label></div>
+      <div class="row2"><label>Good English<input name="good" placeholder="Tomato" required /></label><label>Urdu name<input name="urdu" dir="rtl" placeholder="ٹماٹر" /></label></div>
+      <div class="row2"><label>Unit<select name="unit"><option value="kg">Per kg</option><option value="litre">Per litre</option><option value="dozen">Per dozen</option><option value="piece">Per piece</option><option value="crate">Per crate</option><option value="10kg">Per 10 kg</option><option value="20kg">Per 20 kg</option></select></label><label>Price Rs.<input name="price" type="number" step="0.01" required /></label></div>
+      <label>Source note<textarea name="note" placeholder="e.g. Official fruit rate list dated 24-06-2026"></textarea></label>
+      <button type="submit">Save official price</button>
+      <div id="status"></div>
+    </form>
+  </main>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
