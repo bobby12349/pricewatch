@@ -14,7 +14,7 @@
         <div class="hero-copy">
           <p class="eyebrow">Daily price tracker</p>
           <h1>Price Watch Pakistan</h1>
-          <p class="subhead">Quickly check the prices people buy most: atta, milk, chicken, eggs, petrol, diesel, vegetables, fruit, household items and construction basics.</p>
+          <p class="subhead">Quickly check the latest prices of everyday essentials: atta, milk, chicken, eggs, petrol, diesel, vegetables, fruit, household items, and construction materials.</p>
         </div>
         <div class="hero-stat">
           <span>Updated</span>
@@ -73,5 +73,9 @@
       </section>
     </main>
     <script src="/app.js" defer></script>
+    <script type="module">
+      import { injectSpeedInsights } from '/speed-insights.js';
+      injectSpeedInsights();
+    </script>
   </body>
 </html>

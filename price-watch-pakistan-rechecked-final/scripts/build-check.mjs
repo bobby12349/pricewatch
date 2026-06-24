@@ -24,5 +24,5 @@ function copy(src, dest) {
     fs.copyFileSync(src, dest);
   }
 }
-for (const item of ['index.html','app.js','styles.css','data','admin']) copy(item, path.join(publicDir,item));
+for (const item of ['index.html','app.js','styles.css','data','admin','speed-insights.js']) copy(item, path.join(publicDir,item));
 console.log(`Static build check passed: ${rows.length} price rows, ${goods.size} goods. Public fallback created.`);
