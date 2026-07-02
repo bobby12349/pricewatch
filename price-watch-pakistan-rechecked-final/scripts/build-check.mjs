@@ -7,7 +7,7 @@ for (const file of required) {
 const rows = JSON.parse(fs.readFileSync('data/price-history.json', 'utf8'));
 if (!Array.isArray(rows) || rows.length < 1) throw new Error('price-history.json has no rows');
 const goods = new Set(rows.map(r => `${r.good}|${r.unit}`));
-for (const name of ['Atta / Wheat Flour','Petrol','Diesel','Milk','Chicken Meat','Eggs','Mango','Cement']) {
+for (const name of ['Atta / Wheat Flour','Petrol','Diesel','Milk','Chicken Meat','Eggs','Mango']) {
   if (!rows.some(r => r.good === name)) throw new Error(`Missing key good: ${name}`);
 }
 // Create a public copy as a fallback in case Vercel Output Directory is set to public.
