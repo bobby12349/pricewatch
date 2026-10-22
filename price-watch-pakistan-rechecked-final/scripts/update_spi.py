@@ -71,6 +71,7 @@ ITEMS = [
     ("Gur", r"Gur \(", 1, "kg", "Staples", 500),
     ("Mustard Oil", r"Mustard Oil", 1, "kg", "Staples", 500),
     ("Salt Powdered", r"Salt Powdered", 1, "800g packet", "Staples", 500),
+    ("Bananas", r"Bananas", 1, "dozen", "Fruits", 500),
 ]
 
 MIN_MATCHED = 32          # refuse to write if fewer items parse

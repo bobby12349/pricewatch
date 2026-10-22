@@ -27,6 +27,7 @@ const NAMES = {
   'Electricity Charges Q1': ['Electricity', 'بجلی'], 'Gas Charges Q1': ['Gas', 'گیس'],
   'Chilies Powder': ['Chilli powder', 'لال مرچ'], 'Gur': ['Gur', 'گڑ'], 'Mustard Oil': ['Mustard oil', 'سرسوں کا تیل'],
   'Salt Powdered': ['Salt', 'نمک'],
+  'Bananas': ['Bananas', 'کیلا'],
 };
 
 const rows = JSON.parse(fs.readFileSync(DATA, 'utf8')).filter(r => r.sourceName === 'Pakistan Bureau of Statistics');

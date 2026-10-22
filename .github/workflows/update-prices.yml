@@ -39,6 +39,12 @@ jobs:
       - name: Fetch latest PBS SPI prices
         run: python scripts/update_spi.py
 
+      - name: Read Lahore fruit, vegetable & poultry rate sheets (AI)
+        continue-on-error: true   # never blocks the PBS update
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/update_punjab.py
+
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -73,5 +79,6 @@ jobs:
             exit 0
           fi
           git add data/price-history.json public/data/price-history.json ../instagram/latest
-          git commit -m "Weekly PBS SPI price update + Instagram post ($(date -u +%Y-%m-%d))"
+          [ -f data/punjab-names.json ] && git add data/punjab-names.json
+          git commit -m "Weekly price update (PBS + Lahore) + Instagram post ($(date -u +%Y-%m-%d))"
           git push
