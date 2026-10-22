@@ -1,0 +1,11 @@
+{
+  "name": "pricewatch-instagram",
+  "private": true,
+  "type": "module",
+  "scripts": { "post": "node make-post.mjs" },
+  "dependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "@fontsource/noto-nastaliq-urdu": "^5.0.0",
+    "puppeteer-core": "^24.0.0"
+  }
+}

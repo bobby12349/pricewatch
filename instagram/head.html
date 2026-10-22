@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:500;src:url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2)}
+@font-face{font-family:Inter;font-weight:700;src:url(node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2)}
+@font-face{font-family:Urdu;font-weight:400;src:url(node_modules/@fontsource/noto-nastaliq-urdu/files/noto-nastaliq-urdu-arabic-500-normal.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#222;font-family:Inter,sans-serif}
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden}
+.ur{font-family:Urdu;direction:rtl}
+
+/* cover */
+.cover{background:linear-gradient(160deg,#0a5230 0%,#0c6a3c 55%,#109050 100%);color:#fff;padding:90px 84px}
+.cover .blob{position:absolute;width:820px;height:820px;border-radius:50%;background:rgba(255,255,255,.07);top:-330px;right:-300px}
+.brand{display:flex;align-items:center;gap:26px;position:relative}
+.brand .name{font-weight:800;font-size:38px;letter-spacing:-.5px}
+.brand .tag{font-weight:700;font-size:19px;letter-spacing:4px;opacity:.7;margin-top:6px}
+.pill{display:inline-flex;align-items:center;gap:16px;margin-top:84px;padding:16px 30px;border-radius:40px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.18);font-weight:700;font-size:23px;letter-spacing:3px}
+.pill i{width:12px;height:12px;border-radius:50%;background:#a7f0c4;display:block}
+.hero{margin-top:40px;font-weight:800;font-size:148px;line-height:.96;letter-spacing:-7px}
+.hero .dim{color:rgba(255,255,255,.5)}
+.big{position:absolute;left:84px;right:84px;bottom:180px;padding:48px 56px;border-radius:40px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);display:flex;justify-content:space-between;align-items:flex-end}
+.big .lab{font-weight:700;font-size:21px;letter-spacing:4px;opacity:.75;margin-bottom:56px}
+.big .item{font-weight:800;font-size:56px;letter-spacing:-1.5px}
+.big .ur{font-size:30px;opacity:.8;margin-top:8px;text-align:right}
+.big .nmw{display:inline-block}
+.big .pct{font-weight:800;font-size:112px;letter-spacing:-5px;color:#ffa9ad;line-height:1}
+.swipe{position:absolute;left:84px;bottom:96px;font-weight:700;font-size:26px}
+.dots{position:absolute;bottom:52px;left:0;right:0;display:flex;justify-content:center;gap:10px}
+.dots b{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35)}
+.dots b.on{background:#fff}
+
+/* list */
+.list{background:linear-gradient(170deg,#eaf6ee 0%,#f7fbf8 60%,#eef7f1 100%);padding:84px 76px;color:#0d1a13}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top .d{font-weight:700;font-size:22px;letter-spacing:3.5px;color:#6b7a70}
+h2{margin-top:44px;font-weight:800;font-size:106px;line-height:1;letter-spacing:-5px}
+h2 .up{color:#c8323c} h2 .down{color:#0c7a42}
+.sub{margin-top:26px;font-weight:600;font-size:28px;color:#5b6a60}
+.card{margin-top:44px;background:#fff;border-radius:40px;box-shadow:0 20px 60px rgba(10,60,30,.08);padding:8px 50px}
+.row{display:flex;align-items:center;height:128px;border-bottom:2px solid #edf2ee}
+.row:last-child{border-bottom:none}
+.n{width:66px;height:66px;border-radius:50%;background:#e4f3e9;color:#0c6a3c;font-weight:800;font-size:28px;display:flex;align-items:center;justify-content:center;flex:none}
+.row:first-child .n{width:80px;height:80px;background:#0c5a34;color:#fff;font-size:32px;margin-left:-7px;margin-right:-7px}
+.nm{margin-left:44px;flex:1;align-self:stretch;position:relative}
+.nm .e{position:absolute;top:18px;font-weight:800;font-size:44px;letter-spacing:-1.2px}
+.nm .ur{position:absolute;right:24px;bottom:10px;font-size:26px;color:#4b5a50}
+.p{font-weight:800;font-size:58px;letter-spacing:-2.5px;width:280px;text-align:right}
+.up .p{color:#c8323c} .down .p{color:#0c7a42}
+.foot{position:absolute;left:76px;right:76px;bottom:64px;display:flex;justify-content:space-between;font-weight:700;font-size:24px;color:#6b7a70}
+</style></head>

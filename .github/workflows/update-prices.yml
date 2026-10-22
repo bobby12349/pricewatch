@@ -42,13 +42,24 @@ jobs:
       - name: Check site still builds
         run: node scripts/build-check.mjs
 
-      - name: Commit and push if prices changed
+      - name: Build Instagram post (only when prices changed)
+        id: post
         run: |
-          # Commit as the repo owner: Vercel's free plan only deploys commits
-          # authored by the account owner.
+          if git diff --quiet -- data/price-history.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          cd ../instagram
+          npm install --no-audit --no-fund
+          CHROME_PATH="$(which google-chrome || which chromium)" node make-post.mjs
+
+      - name: Commit and push
+        run: |
+          # Commit as the repo owner so Vercel deploys it.
           git config user.name "bobby12349"
           git config user.email "296196047+bobby12349@users.noreply.github.com"
-          if git diff --quiet -- data/price-history.json; then
+          if [ "${{ steps.post.outputs.changed }}" != "true" ]; then
             if [ "${{ inputs.redeploy }}" = "true" ]; then
               git commit --allow-empty -m "Redeploy site"
               git push
@@ -57,6 +68,6 @@ jobs:
             fi
             exit 0
           fi
-          git add data/price-history.json public/data/price-history.json
-          git commit -m "Weekly PBS SPI price update ($(date -u +%Y-%m-%d))"
+          git add data/price-history.json public/data/price-history.json ../instagram/latest
+          git commit -m "Weekly PBS SPI price update + Instagram post ($(date -u +%Y-%m-%d))"
           git push
