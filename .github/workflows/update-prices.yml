@@ -12,6 +12,10 @@ on:
         description: "Push a commit even if no new prices (forces a Vercel redeploy)"
         type: boolean
         default: false
+      make_post:
+        description: "Rebuild the Instagram post even if no new prices"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -45,7 +49,7 @@ jobs:
       - name: Build Instagram post (only when prices changed)
         id: post
         run: |
-          if git diff --quiet -- data/price-history.json; then
+          if git diff --quiet -- data/price-history.json && [ "${{ inputs.make_post }}" != "true" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
