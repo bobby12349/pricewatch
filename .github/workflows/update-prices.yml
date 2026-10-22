@@ -6,7 +6,12 @@ on:
     # in case the report is published late (re-runs add nothing if up to date).
     - cron: "17 1 * * 6"
     - cron: "17 1 * * 1"
-  workflow_dispatch: {}   # adds a "Run workflow" button on the Actions tab
+  workflow_dispatch:      # adds a "Run workflow" button on the Actions tab
+    inputs:
+      redeploy:
+        description: "Push a commit even if no new prices (forces a Vercel redeploy)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -39,12 +44,19 @@ jobs:
 
       - name: Commit and push if prices changed
         run: |
+          # Commit as the repo owner: Vercel's free plan only deploys commits
+          # authored by the account owner.
+          git config user.name "bobby12349"
+          git config user.email "296196047+bobby12349@users.noreply.github.com"
           if git diff --quiet -- data/price-history.json; then
-            echo "No new data."
+            if [ "${{ inputs.redeploy }}" = "true" ]; then
+              git commit --allow-empty -m "Redeploy site"
+              git push
+            else
+              echo "No new data."
+            fi
             exit 0
           fi
-          git config user.name "pricewatch-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/price-history.json public/data/price-history.json
           git commit -m "Weekly PBS SPI price update ($(date -u +%Y-%m-%d))"
           git push
