@@ -1,0 +1,50 @@
+name: Weekly price update
+
+on:
+  schedule:
+    # PBS publishes the SPI on Fridays. Saturday 06:17 PKT, with a Monday retry
+    # in case the report is published late (re-runs add nothing if up to date).
+    - cron: "17 1 * * 6"
+    - cron: "17 1 * * 1"
+  workflow_dispatch: {}   # adds a "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: price-watch-pakistan-rechecked-final
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PDF reader
+        run: pip install pypdf
+
+      - name: Fetch latest PBS SPI prices
+        run: python scripts/update_spi.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check site still builds
+        run: node scripts/build-check.mjs
+
+      - name: Commit and push if prices changed
+        run: |
+          if git diff --quiet -- data/price-history.json; then
+            echo "No new data."
+            exit 0
+          fi
+          git config user.name "pricewatch-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/price-history.json public/data/price-history.json
+          git commit -m "Weekly PBS SPI price update ($(date -u +%Y-%m-%d))"
+          git push
