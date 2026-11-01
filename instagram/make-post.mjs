@@ -53,13 +53,16 @@ const heroUp = hero && hero.pct > 0;
 const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 const rowHtml = list => list.map((m, i) =>
   `<div class="row"><div class="n">${i + 1}</div><div class="nm"><div class="e">${esc(m.name)}</div><div class="ur">${esc(m.ur)}</div></div><div class="p">${fmtPct(m.pct)}</div></div>`).join('\n');
+// Optional one-off milestone slide: MILESTONE=1000 node make-post.mjs
+const MILESTONE = Number(process.env.MILESTONE || 0);
+const TOTAL = MILESTONE ? 4 : 3;
 const listSlide = (id, kind, list, n) => `
 <section class="slide list ${kind}" id="${id}">
   <div class="top"><div class="d">PRICES UPDATED · ${dateUp}</div><svg width="64" height="64"><use href="#logo"/></svg></div>
   <h2>Top ${list.length} price<br><span class="${kind}">${kind === 'up' ? 'increases' : 'decreases'}</span></h2>
   <div class="sub">Change vs. previous week</div>
   <div class="card">${list.length ? rowHtml(list) : '<div class="row"><div class="nm"><div class="e">No price ' + (kind === 'up' ? 'increases' : 'decreases') + ' this week</div></div></div>'}</div>
-  <div class="foot"><span>PriceWatch Pakistan</span><span>${n} / 3</span></div>
+  <div class="foot"><span>PriceWatch Pakistan</span><span>${n} / ${TOTAL}</span></div>
 </section>`;
 
 const head = fs.readFileSync(path.join(here, 'head.html'), 'utf8');
@@ -76,10 +79,25 @@ const html = `${head}<body>${logo}
     <div class="pct" style="${heroUp ? '' : 'color:#a7f0c4'}">${fmtPct(hero.pct)}</div>
   </div>` : ''}
   <div class="swipe">Swipe for the top movers →</div>
-  <div class="dots"><b class="on"></b><b></b><b></b></div>
+  <div class="dots"><b class="on"></b>${'<b></b>'.repeat(TOTAL - 1)}</div>
 </section>
 ${listSlide('s2', 'up', ups, 2)}
 ${listSlide('s3', 'down', downs, 3)}
+${MILESTONE ? `
+<section class="slide cover" id="s4">
+  <div class="blob"></div>
+  <div class="brand"><svg width="78" height="78"><use href="#logo"/></svg>
+    <div><div class="name">PriceWatch Pakistan</div><div class="tag">DAILY PRICE TRACKER</div></div></div>
+  <div class="pill"><i></i>MILESTONE UNLOCKED</div>
+  <div class="hero" style="font-size:250px;letter-spacing:-12px;margin-top:70px">${MILESTONE.toLocaleString('en-US')}+</div>
+  <div class="hero" style="font-size:112px;letter-spacing:-5px;margin-top:6px">users<br><span class="dim">and counting.</span></div>
+  <div class="big" style="display:block">
+    <div class="item" style="font-size:44px;line-height:1.25">Thank you for checking prices with us.</div>
+    <div class="ur" style="font-size:40px;margin-top:22px;opacity:.85">شکریہ</div>
+  </div>
+  <div class="swipe">pricewatchpk.vercel.app</div>
+  <div class="dots"><b></b><b></b><b></b><b class="on"></b></div>
+</section>` : ''}
 </body></html>`;
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -90,7 +108,7 @@ const list = (l) => l.slice(0, 3).map(m => `${m.name.replace(/\s*\(.*\)/, '').to
 const caption = `Prices updated as per ${day}${sfx} of ${monthLong} 🧾 ` +
   (ups.length ? `${list(ups)} rose the most this week` : 'No major increases this week') +
   (downs.length ? `, while ${list(downs)} fell.` : '.') +
-  ` Full list at pricewatchpk.vercel.app — source: PBS weekly SPI.\n\n#Pakistan #Inflation #Prices #Lahore #Karachi #Islamabad #PriceWatchPK\n`;
+  ` Full list at pricewatchpk.vercel.app — source: PBS weekly SPI.\n\n` + (MILESTONE ? `🎉 We've crossed ${MILESTONE.toLocaleString('en-US')}+ users — thank you for checking prices with us! شکریہ\n\n` : '') + `#Pakistan #Inflation #Prices #Lahore #Karachi #Islamabad #PriceWatchPK\n`;
 fs.writeFileSync(path.join(OUT, 'caption.txt'), caption);
 
 const exe = process.env.CHROME_PATH || '/usr/bin/google-chrome';
@@ -99,7 +117,8 @@ const page = await browser.newPage();
 await page.setViewport({ width: 1080, height: 1350 });
 await page.goto('file://' + htmlPath, { waitUntil: 'networkidle0' });
 await page.evaluate(() => document.fonts.ready);
-for (const i of [1, 2, 3]) await (await page.$('#s' + i)).screenshot({ path: path.join(OUT, `slide${i}.png`) });
+for (const f of fs.readdirSync(OUT)) if (/^slide\d+\.png$/.test(f)) fs.rmSync(path.join(OUT, f));
+for (let i = 1; i <= TOTAL; i++) await (await page.$('#s' + i)).screenshot({ path: path.join(OUT, `slide${i}.png`) });
 await browser.close();
 fs.rmSync(htmlPath);
 console.log(`Post for ${cur} (vs ${prev}): ${ups.length} up, ${downs.length} down -> ${OUT}`);
